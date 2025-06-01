@@ -27,4 +27,4 @@ replay_pid*
 .kotlin/
 /.idea/
 /.gradle/
-/hellounit/build/
+/**/build/
