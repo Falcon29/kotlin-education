@@ -1,0 +1,8 @@
+package org.edu
+
+fun main() {
+    val name = "Kotlin"
+    println(sayHello(name))
+}
+
+fun sayHello(name: String) = "Hello, $name!"
