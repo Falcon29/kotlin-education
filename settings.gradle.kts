@@ -6,5 +6,11 @@ pluginManagement {
     }
 }
 
-rootProject.name = "kotlin-education"
-include("hellounit")
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
+}
+
+rootProject.name = "kotlined"
+
+includeBuild("lessons")
+includeBuild("contact-center")

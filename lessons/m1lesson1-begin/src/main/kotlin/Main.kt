@@ -1,4 +1,4 @@
-package org.edu
+package org.kotlined
 
 fun main() {
     val name = "Kotlin"

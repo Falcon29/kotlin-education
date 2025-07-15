@@ -1,0 +1,26 @@
+plugins {
+    alias(libs.plugins.kotlin.jvm) apply false // apply false because plugins are applied for subproject, not root
+    alias(libs.plugins.kotlin.multiplatform) apply false
+}
+
+repositories {
+    mavenCentral()
+}
+
+subprojects {
+    group = property("group").toString()
+    version = property("version").toString()
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+tasks {
+    create("clean") {
+        group = "build"
+//        gradle.includedBuilds.forEach {
+//            dependsOn(it.task(":clean"))
+//        }
+    }
+}
