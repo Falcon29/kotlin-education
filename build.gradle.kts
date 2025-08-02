@@ -3,24 +3,24 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
 }
 
+group = "org.kotlined"
+version = "0.0.1"
+
 repositories {
     mavenCentral()
 }
 
 subprojects {
-    group = property("group").toString()
-    version = property("version").toString()
-
     repositories {
         mavenCentral()
     }
+    group = rootProject.group
+    version = rootProject.version
 }
 
 tasks {
-    create("clean") {
-        group = "build"
-//        gradle.includedBuilds.forEach {
-//            dependsOn(it.task(":clean"))
-//        }
+    register("check" ) {
+        group = "verification"
+        dependsOn(gradle.includedBuild("contact-center-be").task(":check"))
     }
 }
