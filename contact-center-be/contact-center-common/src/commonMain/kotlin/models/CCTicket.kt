@@ -10,7 +10,7 @@ data class CCTicket(
     var  priority: CCTicketPriority = CCTicketPriority.NONE,
     var  createdAt: String = "",
     var  updatedAt: String = "",
-    var  permissions: MutableSet<CCTicketPermission> = mutableSetOf()
+    var  permissions: MutableList<CCTicketPermission> = mutableListOf()
 ) {
     fun isEmpty() = this == NONE
 

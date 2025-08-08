@@ -7,8 +7,8 @@ version = rootProject.version
 
 dependencies {
     implementation(kotlin("stdlib"))
-//    implementation(projects.contactCenterApiV1Jackson)
-//    implementation(projects.contactCenterCommon)
+    implementation(projects.contactCenterApiV1Jackson)
+    implementation(projects.contactCenterCommon)
 
     testImplementation(kotlin("test-junit"))
 //    testImplementation(projects.contactCenterStubs)
