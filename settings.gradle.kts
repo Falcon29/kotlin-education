@@ -12,5 +12,5 @@ plugins {
 
 rootProject.name = "kotlined"
 
-includeBuild("lessons")
+//includeBuild("lessons")
 includeBuild("contact-center-be")
