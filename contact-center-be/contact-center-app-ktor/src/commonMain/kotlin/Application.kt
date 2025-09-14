@@ -1,4 +1,4 @@
-package org.kotlined
+package org.kotlined.cc.app.ktor
 
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
@@ -14,6 +14,9 @@ import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.ktor.server.websocket.WebSockets
 import io.ktor.server.websocket.webSocket
+import org.kotlined.cc.api.v2.apiV2Mapper
+import org.kotlined.cc.app.ktor.v2.v2Ticket
+import org.kotlined.cc.app.ktor.v2.wsHandlerV2
 
 fun Application.module(
     appSettings: CCAppSettings = initAppSettings()
@@ -24,6 +27,12 @@ fun Application.module(
         allowMethod(HttpMethod.Delete)
         allowMethod(HttpMethod.Patch)
         allowHeader(HttpHeaders.Authorization)
+        allowHeader("MyCustomHeader")
+        allowCredentials = true
+        /* TODO
+            Это временное решение, оно опасно.
+            В боевом приложении здесь должны быть конкретные настройки
+        */
         anyHost()
     }
     install(WebSockets)
@@ -34,9 +43,9 @@ fun Application.module(
         }
         route("v2") {
             install(ContentNegotiation) {
-                json(apiV1mapper)
+                json(apiV2Mapper)
             }
-            v2Ad(appSettings)
+            v2Ticket(appSettings)
             webSocket("/ws") {
                 wsHandlerV2(appSettings)
             }

@@ -1,6 +1,6 @@
 package org.kotlined.common.models
 
-data class CCTicketFilter(
+data class CCTicketList(
     var status: CCTicketStatus = CCTicketStatus.NONE,
     var priority: CCTicketPriority = CCTicketPriority.NONE,
     var clientId: CCTicketClientId = CCTicketClientId.NONE,

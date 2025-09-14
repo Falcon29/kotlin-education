@@ -1,7 +1,7 @@
-package org.kotlined
+package org.kotlined.cc.kafka
 
 fun main() {
-    val config = AppKafkaConfig()
-    val consumer = AppKafkaConsumer(config, listOf(ConsumerStrategyV1()))
+    val config = KafkaConfig()
+    val consumer = KafkaConsumer(config, listOf(ConsumerStrategyV1(), ConsumerStrategyV2()))
     consumer.start()
 }

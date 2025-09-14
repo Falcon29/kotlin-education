@@ -1,7 +1,7 @@
-package org.kotlined.api.v1
+package org.kotlined.cc.api.v1
 
 import org.junit.Test
-import org.kotlined.api.v1.models.*
+import org.kotlined.cc.api.v1.models.*
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 

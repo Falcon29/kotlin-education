@@ -13,6 +13,7 @@ plugins {
 
 application {
     mainClass.set("io.ktor.server.cio.EngineMain")
+//    mainClass.set("org.kotlined.Application.kt")
 }
 
 ktor {
@@ -56,9 +57,10 @@ kotlin {
 //                В Application.main добавить `install(DoubleReceive)`
 //                implementation("io.ktor:ktor-server-double-receive:${libs.versions.ktor.get()}")
 
-                implementation(project(":contact-center-common"))
+                implementation(project(":contact-center-app-common"))
                 implementation(project(":contact-center-common"))
                 implementation(project(":contact-center-biz"))
+                implementation(project(":contact-center-api-v2-multiplatform"))
 
                 // Stubs
                 implementation(project(":contact-center-stubs"))
@@ -78,6 +80,31 @@ kotlin {
 
                 implementation(libs.ktor.server.test)
                 implementation(libs.ktor.client.negotiation)
+            }
+        }
+        val jvmMain by getting {
+            dependencies {
+                implementation(kotlin("stdlib-jdk8"))
+
+                implementation(libs.ktor.serialization.jackson)
+                implementation(libs.ktor.server.calllogging)
+                implementation(libs.ktor.server.headers.default)
+
+                implementation(libs.logback)
+
+                implementation(project(":contact-center-api-v1-jackson"))
+                implementation(project(":contact-center-api-v1-mappers"))
+//                implementation(project(":contact-center-common"))
+//                implementation(project(":contact-center-biz"))
+
+                implementation("org.kotlined.cc.libs:contact-center-lib-logback")
+
+            }
+        }
+
+        val jvmTest by getting {
+            dependencies {
+                implementation(kotlin("test-junit"))
             }
         }
     }

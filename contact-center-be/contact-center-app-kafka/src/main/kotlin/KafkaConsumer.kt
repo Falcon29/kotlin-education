@@ -1,4 +1,4 @@
-package org.kotlined
+package org.kotlined.cc.kafka
 
 import com.sun.org.slf4j.internal.LoggerFactory
 import kotlinx.atomicfu.atomic
@@ -12,7 +12,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.apache.kafka.clients.producer.Producer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.errors.WakeupException
-import org.kotlined.common.helpers.controllerHelper
+import org.kotlined.cc.app.common.controllerHelper
 import java.time.Duration
 import java.util.UUID
 import kotlin.String

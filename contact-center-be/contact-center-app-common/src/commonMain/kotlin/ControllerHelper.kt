@@ -1,8 +1,7 @@
-package org.kotlined.common.helpers
+package org.kotlined.cc.app.common
 
 import kotlinx.datetime.Clock
 import org.kotlined.common.CCContext
-import org.kotlined.common.ICCAppSettings
 import org.kotlined.common.models.CCCommand
 import org.kotlined.common.models.CCTicketStatus
 

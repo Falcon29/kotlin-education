@@ -3,8 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
 }
 
-group = "org.kotlined"
-version = "0.1"
+group = "org.kotlined.cc"
+version = "0.0.1"
 
 allprojects {
     repositories {
@@ -20,6 +20,7 @@ subprojects {
 ext {
     val specDir = layout.projectDirectory.dir("../specs")
     set("spec-v1", specDir.file("spec-cc-v1.yaml").toString())
+    set("spec-v2", specDir.file("spec-cc-v2.yaml").toString())
 }
 
 tasks {

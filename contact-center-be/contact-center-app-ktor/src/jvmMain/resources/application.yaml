@@ -1,0 +1,9 @@
+ktor:
+  deployment:
+    port: 8080
+  watch:
+    - classes
+    - resources
+  application:
+    modules:
+      - "org.kotlined.app.ktor.ApplicationJvmKt.moduleJvm"

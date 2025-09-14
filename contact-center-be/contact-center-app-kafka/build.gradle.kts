@@ -18,12 +18,13 @@ dependencies {
     implementation(libs.coroutines.core)
     implementation(libs.kotlinx.atomicfu)
 
-    implementation(project(":contact-center-common"))
+    implementation(project(":contact-center-app-common"))
 
     // transport models
     implementation(project(":contact-center-common"))
     implementation(project(":contact-center-api-v1-jackson"))
     implementation(project(":contact-center-api-v1-mappers"))
+    implementation(project(":contact-center-api-v2-multiplatform"))
     // logic
     implementation(project(":contact-center-biz"))
 

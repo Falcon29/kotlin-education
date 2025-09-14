@@ -1,4 +1,4 @@
-package org.kotlined
+package org.kotlined.cc.kafka
 
 import org.kotlined.common.CCContext
 

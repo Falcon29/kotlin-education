@@ -1,9 +1,11 @@
-package org.kotlined
+package org.kotlined.cc.kafka
 
-import org.kotlined.api.v1.apiV1RequestDeserialize
-import org.kotlined.api.v1.apiV1ResponseSerialize
-import org.kotlined.api.v1.models.IRequest
-import org.kotlined.api.v1.models.IResponse
+import org.kotlined.cc.api.v1.apiV1RequestDeserialize
+import org.kotlined.cc.api.v1.apiV1ResponseSerialize
+import org.kotlined.cc.api.v1.models.IRequest
+import org.kotlined.cc.api.v1.models.IResponse
+import org.kotlined.cc.mappers.v1.fromTransport
+import org.kotlined.cc.mappers.v1.toTransportTicket
 import org.kotlined.common.CCContext
 
 class ConsumerStrategyV1 : IConsumerStrategy {

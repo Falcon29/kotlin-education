@@ -1,7 +1,6 @@
 pluginManagement {
-    val kotlinVersion: String by settings
-
     plugins {
+        val kotlinVersion: String by settings
         kotlin("jvm") version kotlinVersion
     }
 }
@@ -14,3 +13,4 @@ rootProject.name = "kotlined"
 
 //includeBuild("lessons")
 includeBuild("contact-center-be")
+includeBuild("contact-center-libs")

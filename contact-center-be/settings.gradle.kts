@@ -29,9 +29,11 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 include(":contact-center-api-v1-jackson")
 include(":contact-center-api-v1-mappers")
-//include(":contact-center-api-v2-multiplatform")
+include(":contact-center-api-v2-multiplatform")
+
 include(":contact-center-common")
 include(":contact-center-stubs")
 include(":contact-center-app-ktor")
 include(":contact-center-app-kafka")
 include(":contact-center-biz")
+include(":contact-center-app-common")

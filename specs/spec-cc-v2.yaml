@@ -1,0 +1,418 @@
+openapi: 3.0.3
+info:
+  title: "Contact Center API ${VERSION_APP}"
+  description: API for managing support tickets in a contact center system
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v2
+tags:
+  - name: tickets
+    description: Operations with support tickets
+
+paths:
+  /tickets/create:
+    post:
+      tags:
+        - tickets
+      summary: Create a new ticket
+      operationId: ticketsCreate
+      requestBody:
+        description: Ticket creation request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketCreateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketCreateResponse'
+
+  /tickets/update:
+    post:
+      tags:
+        - tickets
+      summary: Update a ticket
+      operationId: ticketsUpdate
+      requestBody:
+        description: Ticket update request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketUpdateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketUpdateResponse'
+
+  /tickets/get:
+    post:
+      tags:
+        - tickets
+      summary: Get ticket details
+      operationId: ticketsGet
+      requestBody:
+        description: Ticket retrieval request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketGetRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketGetResponse'
+
+  /tickets/list:
+    post:
+      tags:
+        - tickets
+      summary: List and search tickets
+      operationId: ticketsList
+      requestBody:
+        description: Ticket listing request with filters and search
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketListRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketListResponse'
+
+  /tickets/assign:
+    post:
+      tags:
+        - tickets
+      summary: Assign ticket to operator
+      operationId: ticketsAssign
+      requestBody:
+        description: Ticket assignment request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketAssignRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketAssignResponse'
+
+components:
+  schemas:
+    # Base Interfaces
+    IRequest:
+      type: object
+      description: Base interface for all requests
+      properties:
+        requestType:
+          type: string
+          description: Discriminator field for request type determination
+          example: create
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/TicketCreateRequest'
+          update: '#/components/schemas/TicketUpdateRequest'
+          get: '#/components/schemas/TicketGetRequest'
+          list: '#/components/schemas/TicketListRequest'
+          assign: '#/components/schemas/TicketAssignRequest'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+
+    ResponseResult:
+      type: string
+      enum:
+        - success
+        - error
+
+    IResponse:
+      type: object
+      description: Base interface for all responses
+      properties:
+        responseType:
+          type: string
+          description: Discriminator field for response type determination
+          example: create
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/TicketCreateResponse'
+          update: '#/components/schemas/TicketUpdateResponse'
+          get: '#/components/schemas/TicketGetResponse'
+          list: '#/components/schemas/TicketListResponse'
+          assign: '#/components/schemas/TicketAssignResponse'
+
+    # Common Types
+    TicketId:
+      type: string
+      description: Unique identifier for a ticket
+      example: "ticket:12345"
+
+    UserId:
+      type: string
+      description: User identifier (client or operator)
+      example: "client:67890"
+
+    TicketStatus:
+      type: string
+      description: Status of the ticket
+      enum:
+        - new
+        - in_progress
+        - closed
+
+    TicketPriority:
+      type: string
+      description: Priority level of the ticket
+      enum:
+        - low
+        - medium
+        - high
+
+    # Request Objects
+    TicketCreateObject:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the ticket
+          example: "Problem with login"
+        description:
+          type: string
+          description: Detailed description of the issue
+          example: "Cannot login since morning"
+        priority:
+          $ref: '#/components/schemas/TicketPriority'
+
+    TicketCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - type: object
+          properties:
+            ticket:
+              $ref: '#/components/schemas/TicketCreateObject'
+
+    TicketUpdateObject:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/TicketId'
+        title:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        status:
+          $ref: '#/components/schemas/TicketStatus'
+          nullable: true
+        priority:
+          $ref: '#/components/schemas/TicketPriority'
+          nullable: true
+
+    TicketUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - type: object
+          properties:
+            ticket:
+              $ref: '#/components/schemas/TicketUpdateObject'
+
+    TicketGetObject:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/TicketId'
+
+    TicketGetRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - type: object
+          properties:
+            ticket:
+              $ref: '#/components/schemas/TicketGetObject'
+
+    TicketList:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/TicketStatus'
+          nullable: true
+        priority:
+          $ref: '#/components/schemas/TicketPriority'
+          nullable: true
+        clientId:
+          $ref: '#/components/schemas/UserId'
+          nullable: true
+        operatorId:
+          $ref: '#/components/schemas/UserId'
+          nullable: true
+
+    TicketListRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - type: object
+          properties:
+            filter:
+              $ref: '#/components/schemas/TicketList'
+
+    TicketAssignObject:
+      type: object
+      properties:
+        ticketId:
+          $ref: '#/components/schemas/TicketId'
+        operatorId:
+          $ref: '#/components/schemas/UserId'
+
+    TicketAssignRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - type: object
+          properties:
+            assignment:
+              $ref: '#/components/schemas/TicketAssignObject'
+
+    # Response Objects
+    TicketObject:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/TicketId'
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          $ref: '#/components/schemas/TicketStatus'
+        clientId:
+          $ref: '#/components/schemas/UserId'
+        operatorId:
+          $ref: '#/components/schemas/UserId'
+          nullable: true
+        priority:
+          $ref: '#/components/schemas/TicketPriority'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketPermissions'
+
+    TicketPermissions:
+      type: string
+      description: Permissions available for the requesting user
+      enum:
+        - read
+        - update
+        - close
+        - assign
+        - change_priority
+
+    TicketResponseSingle:
+      type: object
+      properties:
+        ticket:
+          $ref: '#/components/schemas/TicketObject'
+
+    TicketResponseMulti:
+      type: object
+      properties:
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketObject'
+        total:
+          type: integer
+          description: Total number of tickets matching the filter
+
+    TicketCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/TicketResponseSingle'
+
+    TicketUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/TicketResponseSingle'
+
+    TicketGetResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/TicketResponseSingle'
+
+    TicketListResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/TicketResponseMulti'
+
+    TicketAssignResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/TicketResponseSingle'
+
+    # Debug Types (optional)
+    TicketDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+
+    TicketDebugStubs:
+      type: string
+      enum:
+        - success
+        - not_found
+        - validation_error
+        - permission_denied
+        - too_many_tickets
+
+    TicketDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/TicketDebugMode'
+        stub:
+          $ref: '#/components/schemas/TicketDebugStubs'
+          nullable: true
