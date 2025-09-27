@@ -2,14 +2,39 @@ import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 plugins {
     id("build-multiplatform")
+//    alias(libs.plugins.openapi.generator)
     alias(libs.plugins.crowdproj.generator)
     alias(libs.plugins.kotlinx.serialization)
 }
 
-openApiGenerate {
+crowdprojGenerate {
     packageName.set("${project.group}.api.v2")
     inputSpec.set(rootProject.ext["spec-v2"] as String)
 }
+
+//openApiGenerate {
+//    val openapiGroup = "${rootProject.group}.api.v2"
+//    generatorName.set("kotlin")
+//    packageName.set(openapiGroup)
+//    apiPackage.set("$openapiGroup.api")
+//    modelPackage.set("$openapiGroup.models")
+//    invokerPackage.set("$openapiGroup.invoker")
+//    inputSpec.set(rootProject.ext["spec-v2"] as String)
+//
+//    globalProperties.apply {
+//        put("models", "")
+//        put("modelDocs", "false")
+//    }
+//
+//    configOptions.set(
+//        mapOf(
+//            "dateLibrary" to "string",
+//            "enumPropertyNaming" to "UPPERCASE",
+//            "serializationLibrary" to "jackson",
+//            "collectionType" to "list"
+//        )
+//    )
+//}
 
 kotlin {
     sourceSets {

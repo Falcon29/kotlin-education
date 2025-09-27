@@ -12,6 +12,10 @@ gradlePlugin {
             id = "build-multiplatform"
             implementationClass = "BuildPluginMultiplatform"
         }
+        register("build-docker") {
+            id = "build-docker"
+            implementationClass = "DockerPlugin"
+        }
     }
 }
 

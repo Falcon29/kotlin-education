@@ -1,17 +1,8 @@
 @file:Suppress("UNCHECKED_CAST")
 
-package org.kotlined
+package org.kotlined.cc.mappers.v1
 
-import org.kotlined.api.v1.models.IResponse
-import org.kotlined.api.v1.models.ResponseResult
-import org.kotlined.api.v1.models.TicketCreateResponse
-import org.kotlined.api.v1.models.TicketGetResponse
-import org.kotlined.api.v1.models.TicketObject
-import org.kotlined.api.v1.models.TicketPermissions
-import org.kotlined.api.v1.models.TicketPriority
-import org.kotlined.api.v1.models.TicketSearchResponse
-import org.kotlined.api.v1.models.TicketStatus
-import org.kotlined.api.v1.models.TicketUpdateResponse
+import org.kotlined.cc.api.v1.models.*
 import org.kotlined.common.CCContext
 import org.kotlined.common.models.CCCommand
 import org.kotlined.common.models.CCError
@@ -25,34 +16,41 @@ import org.kotlined.common.models.CCTicketStatus
 
 fun CCContext.toTransportTicket(): IResponse = when (command) {
     CCCommand.CREATE -> toTransportCreate()
-    CCCommand.GET -> toTransportRead()
+    CCCommand.GET -> toTransportGet()
     CCCommand.UPDATE -> toTransportUpdate()
-    CCCommand.SEARCH -> toTransportSearch()
+    CCCommand.LIST -> toTransportList()
+    CCCommand.ASSIGN -> toTransportAssign()
     CCCommand.NONE -> throw UnknownCCCommand(command)
 }
 
 fun CCContext.toTransportCreate() = TicketCreateResponse(
     result = state.toResult(),
-    errors = errors.toTransportErrors() as List<org.kotlined.api.v1.models.Error>?,
+    errors = errors.toTransportErrors(),
     ticket = ticketResponse.toTransportTicket()
 )
 
-fun CCContext.toTransportRead() = TicketGetResponse(
+fun CCContext.toTransportGet() = TicketGetResponse(
     result = state.toResult(),
-    errors = errors.toTransportErrors() as List<org.kotlined.api.v1.models.Error>?,
+    errors = errors.toTransportErrors(),
+    ticket = ticketResponse.toTransportTicket()
+)
+
+fun CCContext.toTransportAssign() = TicketAssignResponse(
+    result = state.toResult(),
+    errors = errors.toTransportErrors(),
     ticket = ticketResponse.toTransportTicket()
 )
 
 fun CCContext.toTransportUpdate() = TicketUpdateResponse(
     result = state.toResult(),
-    errors = errors.toTransportErrors() as List<org.kotlined.api.v1.models.Error>?,
+    errors = errors.toTransportErrors(),
     ticket = ticketResponse.toTransportTicket()
 )
 
-fun CCContext.toTransportSearch() = TicketSearchResponse(
+fun CCContext.toTransportList() = TicketListResponse(
     result = state.toResult(),
-    errors = errors.toTransportErrors() as List<org.kotlined.api.v1.models.Error>?,
-    tickets = ticketsResponse.toTransportTicket()
+    errors = errors.toTransportErrors(),
+    tickets = ticketListResponse.toTransportTicket()
 )
 
 fun List<CCTicket>.toTransportTicket(): List<TicketObject>? = this
@@ -108,7 +106,7 @@ internal fun List<CCError>.toTransportErrors(): List<Error>? = this
     .toList()
     .takeIf { it.isNotEmpty() } as List<Error>?
 
-internal fun CCError.toTransportError() = _root_ide_package_.org.kotlined.api.v1.models.Error(
+internal fun CCError.toTransportError() = Error(
     code = code.takeIf { it.isNotBlank() },
     group = group.takeIf { it.isNotBlank() },
     field = field.takeIf { it.isNotBlank() },

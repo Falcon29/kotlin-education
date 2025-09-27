@@ -17,10 +17,3 @@ subprojects {
     group = rootProject.group
     version = rootProject.version
 }
-
-tasks {
-    register("check" ) {
-        group = "verification"
-        dependsOn(gradle.includedBuild("contact-center-be").task(":check"))
-    }
-}

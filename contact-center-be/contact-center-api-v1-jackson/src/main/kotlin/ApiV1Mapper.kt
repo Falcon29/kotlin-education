@@ -1,10 +1,10 @@
-package org.kotlined.api.v1
+package org.kotlined.cc.api.v1
 
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.RuntimeJsonMappingException
 import com.fasterxml.jackson.databind.json.JsonMapper
-import org.kotlined.api.v1.models.IRequest
-import org.kotlined.api.v1.models.IResponse
+import org.kotlined.cc.api.v1.models.IRequest
+import org.kotlined.cc.api.v1.models.IResponse
 
 val apiV1Mapper = JsonMapper.builder().run {
     enable(MapperFeature.USE_BASE_TYPE_AS_DEFAULT_IMPL)

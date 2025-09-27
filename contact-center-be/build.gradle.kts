@@ -3,8 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
 }
 
-group = "org.kotlined"
-version = "0.1"
+group = "org.kotlined.cc"
+version = "0.0.1"
 
 allprojects {
     repositories {

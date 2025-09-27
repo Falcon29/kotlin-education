@@ -1,24 +1,11 @@
-package org.kotlined
+package org.kotlined.cc.mappers.v1
 
-import org.kotlined.api.v1.models.IRequest
-import org.kotlined.api.v1.models.TicketCreateObject
-import org.kotlined.api.v1.models.TicketCreateRequest
-import org.kotlined.api.v1.models.TicketDebug
-import org.kotlined.api.v1.models.TicketDebugMode
-import org.kotlined.api.v1.models.TicketGetObject
-import org.kotlined.api.v1.models.TicketGetRequest
-import org.kotlined.api.v1.models.TicketListFilter
-import org.kotlined.api.v1.models.TicketPriority
-import org.kotlined.api.v1.models.TicketSearchObject
-import org.kotlined.api.v1.models.TicketSearchRequest
-import org.kotlined.api.v1.models.TicketStatus
-import org.kotlined.api.v1.models.TicketUpdateObject
-import org.kotlined.api.v1.models.TicketUpdateRequest
+import org.kotlined.cc.api.v1.models.*
 import org.kotlined.common.CCContext
 import org.kotlined.common.models.CCCommand
 import org.kotlined.common.models.CCTicket
 import org.kotlined.common.models.CCTicketClientId
-import org.kotlined.common.models.CCTicketFilter
+import org.kotlined.common.models.CCTicketList
 import org.kotlined.common.models.CCTicketId
 import org.kotlined.common.models.CCTicketOperatorId
 import org.kotlined.common.models.CCTicketPriority
@@ -29,19 +16,9 @@ fun CCContext.fromTransport(request: IRequest) = when (request) {
     is TicketCreateRequest -> fromTransport(request)
     is TicketGetRequest -> fromTransport(request)
     is TicketUpdateRequest -> fromTransport(request)
-    is TicketSearchRequest -> fromTransport(request)
+    is TicketListRequest -> fromTransport(request)
+    is TicketAssignRequest -> fromTransport(request)
     else -> throw UnknownRequestClass(request.javaClass)
-}
-
-private fun String?.toTicketId() = this?.let { CCTicketId(it) } ?: CCTicketId.NONE
-private fun String?.toTicketClientId() = this?.let { CCTicketClientId(it) } ?: CCTicketClientId.NONE
-private fun String?.toTicketOperatorId() = this?.let { CCTicketOperatorId(it) } ?: CCTicketOperatorId.NONE
-
-private fun TicketDebug?.transportToWorkMode(): CCWorkMode = when (this?.mode) {
-    TicketDebugMode.PROD -> CCWorkMode.PROD
-    TicketDebugMode.TEST -> CCWorkMode.TEST
-    TicketDebugMode.STUB -> CCWorkMode.STUB
-    null -> CCWorkMode.PROD
 }
 
 fun CCContext.fromTransport(request: TicketCreateRequest) {
@@ -56,10 +33,16 @@ fun CCContext.fromTransport(request: TicketGetRequest) {
 //    workMode = request.debug.transportToWorkMode()
 }
 
-private fun TicketGetObject?.toInternal(): CCTicket = if (this != null) {
-    CCTicket(id = id.toTicketId())
-} else {
-    CCTicket()
+fun CCContext.fromTransport(request: TicketListRequest) {
+    command = CCCommand.LIST
+    ticketListRequest = request.filter?.toInternal() ?: CCTicketList()
+//    workMode = request.debug.transportToWorkMode()
+}
+
+fun CCContext.fromTransport(request: TicketAssignRequest) {
+    command = CCCommand.ASSIGN
+    ticketRequest = request.assignment?.toInternal() ?: CCTicket()
+//    workMode = request.debug.transportToWorkMode()
 }
 
 fun CCContext.fromTransport(request: TicketUpdateRequest) {
@@ -68,14 +51,24 @@ fun CCContext.fromTransport(request: TicketUpdateRequest) {
 //    workMode = request.debug.transportToWorkMode()
 }
 
+private fun String?.toTicketId() = this?.let { CCTicketId(it) } ?: CCTicketId.NONE
+private fun String?.toTicketClientId() = this?.let { CCTicketClientId(it) } ?: CCTicketClientId.NONE
+private fun String?.toTicketOperatorId() = this?.let { CCTicketOperatorId(it) } ?: CCTicketOperatorId.NONE
 
-fun CCContext.fromTransport(request: TicketSearchRequest) {
-    command = CCCommand.SEARCH
-//    ticketFilterRequest = request.t.toInternal()
-//    workMode = request.debug.transportToWorkMode()
+private fun TicketGetObject?.toInternal(): CCTicket = if (this != null) {
+    CCTicket(id = id.toTicketId())
+} else {
+    CCTicket()
 }
 
-private fun TicketListFilter?.toInternal(): CCTicketFilter = CCTicketFilter(
+private fun TicketDebug?.transportToWorkMode(): CCWorkMode = when (this?.mode) {
+    TicketDebugMode.PROD -> CCWorkMode.PROD
+    TicketDebugMode.TEST -> CCWorkMode.TEST
+    TicketDebugMode.STUB -> CCWorkMode.STUB
+    null -> CCWorkMode.PROD
+}
+
+private fun TicketList?.toInternal(): CCTicketList = CCTicketList(
     status = this?.status?.toStatus() ?: CCTicketStatus.NONE,
     priority = this?.priority?.toPriority() ?: CCTicketPriority.NONE,
     clientId = this?.clientId.toTicketClientId(),
@@ -86,7 +79,6 @@ private fun TicketCreateObject.toInternal(): CCTicket = CCTicket(
     title = this.title ?: "",
     description = this.description ?: "",
     status = CCTicketStatus.NEW,
-//    clientId = this.clientId.toTicketClientId(),
     priority = this.priority.toPriority(),
 )
 
@@ -95,8 +87,6 @@ private fun TicketUpdateObject.toInternal(): CCTicket = CCTicket(
     title = this.title ?: "",
     description = this.description ?: "",
     status = this.status.toStatus(),
-//    clientId = this.clientId.toTicketClientId(),
-//    operatorId = this.operatorId.toTicketOperatorId(),
     priority = this.priority.toPriority()
 )
 
@@ -112,4 +102,13 @@ private fun TicketPriority?.toPriority(): CCTicketPriority = when (this) {
     TicketPriority.MEDIUM -> CCTicketPriority.MEDIUM
     TicketPriority.HIGH -> CCTicketPriority.HIGH
     null -> CCTicketPriority.NONE
+}
+
+private fun TicketAssignObject?.toInternal(): CCTicket = if (this != null) {
+    CCTicket(
+        id = ticketId.toTicketId(),
+        operatorId = operatorId.toTicketOperatorId()
+    )
+} else {
+    CCTicket()
 }

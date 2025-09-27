@@ -1,13 +1,9 @@
-package org.kotlined.mappers
+package org.kotlined.cc.mappers.v1
 
 import org.junit.Test
-import org.kotlined.api.v1.models.*
+import org.kotlined.cc.api.v1.models.*
 import org.kotlined.common.CCContext
 import org.kotlined.common.models.*
-import org.kotlined.fromTransport
-import org.kotlined.toTransportCreateTicket
-import org.kotlined.toTransportTicket
-import org.kotlined.toTransportUpdateTicket
 import kotlin.test.assertEquals
 
 class MapperFromTransportTest {
@@ -118,11 +114,11 @@ class MapperToTransportTest {
     @Test
     fun toTransportSearchResponse() {
         val context = CCContext(
-            command = CCCommand.SEARCH,
-            ticketsResponse = mutableListOf(CCTicketStub.get(), CCTicketStub.get())
+            command = CCCommand.LIST,
+            ticketListResponse = mutableListOf(CCTicketStub.get(), CCTicketStub.get())
         )
 
-        val res = context.toTransportTicket() as TicketSearchResponse
+        val res = context.toTransportTicket() as TicketListResponse
 
         assertEquals(2, res.tickets?.size)
         assertEquals(CCTicketStub.get().toTransportTicket(), res.tickets?.firstOrNull())
