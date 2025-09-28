@@ -1,4 +1,4 @@
-package org.kotlined
+package org.kotlined.cc.logging.common
 
 import kotlinx.datetime.Clock
 import kotlin.time.ExperimentalTime

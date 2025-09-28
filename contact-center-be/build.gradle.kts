@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false // apply false because plugins are applied for subproject, not root
     alias(libs.plugins.kotlin.multiplatform) apply false
+    id("build-docker") apply false
 }
 
 group = "org.kotlined.cc"
@@ -35,5 +36,9 @@ tasks {
                 this@register.dependsOn(it)
             }
         }
+    }
+    register("buildImages") {
+        dependsOn(project("contact-center-app-ktor").tasks.getByName("publishImageToLocalRegistry"))
+        dependsOn(project("contact-center-app-ktor").tasks.getByName("dockerBuildX64Image"))
     }
 }

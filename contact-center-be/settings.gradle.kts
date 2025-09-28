@@ -13,6 +13,7 @@ pluginManagement {
     plugins {
         id("build-jvm") apply false
         id("build-multiplatform") apply false
+        id("build-docker") apply false
     }
     repositories {
         mavenCentral()

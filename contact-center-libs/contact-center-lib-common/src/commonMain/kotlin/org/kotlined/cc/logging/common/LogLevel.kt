@@ -1,4 +1,4 @@
-package org.kotlined
+package org.kotlined.cc.logging.common
 
 enum class LogLevel(
     private val levelInt: Int,

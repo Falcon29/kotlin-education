@@ -13,20 +13,20 @@ kotlin {
                 // transport models
                 implementation(project(":contact-center-common"))
 //                implementation(project(":contact-center-api-log1"))
-//                implementation(project(":contact-center-api-v2-kmp"))
+                implementation(project(":contact-center-api-v2-multiplatform"))
 
                 implementation(project(":contact-center-biz"))
             }
         }
-//        commonTest {
-//            dependencies {
-//                implementation(kotlin("test-common"))
-//                implementation(kotlin("test-annotations-common"))
-//
-//                implementation(libs.coroutines.core)
-//                implementation(libs.coroutines.test)
-//            }
-//        }
+        commonTest {
+            dependencies {
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+
+                implementation(libs.coroutines.core)
+                implementation(libs.coroutines.test)
+            }
+        }
 
         jvmTest {
             dependencies {

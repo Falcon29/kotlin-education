@@ -6,7 +6,7 @@ plugins {
 }
 
 application {
-    mainClass.set("org.kotlined.app.kafka.MainKt")
+    mainClass.set("org.kotlined.cc.app.kafka.MainKt")
 }
 
 docker {
@@ -17,6 +17,8 @@ dependencies {
     implementation(libs.kafka.client)
     implementation(libs.coroutines.core)
     implementation(libs.kotlinx.atomicfu)
+
+    implementation("org.kotlined.cc.libs:contact-center-lib-logback")
 
     implementation(project(":contact-center-app-common"))
 
@@ -42,4 +44,3 @@ tasks {
         dependsOn("shadowJar")
     }
 }
-

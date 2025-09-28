@@ -1,4 +1,4 @@
-package org.kotlined
+package org.kotlined.cc.logging.jvm
 
 import org.slf4j.Marker
 

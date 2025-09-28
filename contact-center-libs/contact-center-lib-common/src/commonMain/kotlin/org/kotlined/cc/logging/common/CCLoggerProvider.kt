@@ -1,10 +1,10 @@
-package org.kotlined
+package org.kotlined.cc.logging.common
 
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 
 class CCLoggerProvider(
-    private val provider: (String) -> ICCLogWrapper = { ICCLogWrapper.DEFAULT }
+    private val provider: (String) -> ICCLogWrapper = { ICCLogWrapper.Companion.DEFAULT }
 ) {
     /**
      * Инициализирует и возвращает экземпляр логера

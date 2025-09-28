@@ -1,6 +1,5 @@
 package org.kotlined.cc.kafka
 
-import com.sun.org.slf4j.internal.LoggerFactory
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
@@ -23,7 +22,7 @@ class KafkaConsumer(
     private val consumer: Consumer<String, String> = config.createKafkaConsumer(),
     private val producer: Producer<String, String> = config.createKafkaProducer()
 ) : AutoCloseable {
-    private val log = LoggerFactory.getLogger(this::class.java)
+    private val log = config.corSettings.loggerProvider.logger(this::class)
     private val process = atomic(true) // пояснить
     private val topicsAndStrategyByInputTopic: Map<String, TopicsAndStrategy> = consumerStrategies.associate {
         val topics = it.topics(config)
@@ -60,7 +59,7 @@ class KafkaConsumer(
                         )
                         sendResponse(resp, outputTopic)
                     } catch (ex: Exception) {
-                        log.error("error", ex)
+                        log.error("error", e = ex)
                     }
                 }
             }

@@ -2,6 +2,7 @@ package org.kotlined.cc.kafka
 
 import org.kotlined.cc.app.common.ICCAppSettings
 import org.kotlined.cc.biz.CCProcessor
+import org.kotlined.cc.logging.jvm.ccLoggerLogback
 import org.kotlined.common.CCCorSettings
 
 class KafkaConfig(
@@ -11,9 +12,11 @@ class KafkaConfig(
     val kafkaTopicOutV1: String = KAFKA_TOPIC_OUT_V1,
     val kafkaTopicInV2: String = KAFKA_TOPIC_IN_V2,
     val kafkaTopicOutV2: String = KAFKA_TOPIC_OUT_V2,
-    override val corSettings: CCCorSettings = CCCorSettings(),
-    override val processor: CCProcessor = CCProcessor(corSettings)
-): ICCAppSettings {
+    override val corSettings: CCCorSettings = CCCorSettings(
+        loggerProvider = CCLoggerProvider { ccLoggerLogback(it) }
+    ),
+    override val processor: CCProcessor = CCProcessor(corSettings),
+) : ICCAppSettings {
     companion object {
         const val KAFKA_HOST_VAR = "KAFKA_HOSTS"
         const val KAFKA_TOPIC_IN_V1_VAR = "KAFKA_TOPIC_IN_V1"

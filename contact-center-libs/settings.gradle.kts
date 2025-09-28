@@ -20,9 +20,9 @@ pluginManagement {
     }
 }
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
-}
+//plugins {
+//    id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
+//}
 
 include(":contact-center-lib-common")
 include(":contact-center-lib-logback")

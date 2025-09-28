@@ -1,7 +1,9 @@
-package org.kotlined
+package org.kotlined.cc.logging.jvm
 
 import ch.qos.logback.classic.Logger
 import net.logstash.logback.argument.StructuredArguments
+import org.kotlined.cc.logging.common.ICCLogWrapper
+import org.kotlined.cc.logging.common.LogLevel
 import org.slf4j.Marker
 import org.slf4j.event.KeyValuePair
 import org.slf4j.event.Level
