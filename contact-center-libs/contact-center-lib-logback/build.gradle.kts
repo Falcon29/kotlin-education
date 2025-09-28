@@ -5,7 +5,7 @@ plugins {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
 
-    implementation(project(":contact-center-lib-common"))
+    api(project(":contact-center-lib-common"))
     implementation(libs.coroutines.core)
     implementation(libs.kotlinx.datetime)
     implementation(libs.logback)

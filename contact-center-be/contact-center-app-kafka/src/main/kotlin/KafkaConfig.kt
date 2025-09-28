@@ -2,6 +2,7 @@ package org.kotlined.cc.kafka
 
 import org.kotlined.cc.app.common.ICCAppSettings
 import org.kotlined.cc.biz.CCProcessor
+import org.kotlined.cc.logging.common.CCLoggerProvider
 import org.kotlined.cc.logging.jvm.ccLoggerLogback
 import org.kotlined.common.CCCorSettings
 
