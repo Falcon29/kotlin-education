@@ -8,6 +8,7 @@ import kotlinx.coroutines.withContext
 import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.consumer.ConsumerRecords
+import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.Producer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.errors.WakeupException
@@ -55,7 +56,9 @@ class KafkaConsumer(
 
                         val resp = config.controllerHelper(
                             { strategy.deserialize(record.value(), this) },
-                            { strategy.serialize(this) }
+                            { strategy.serialize(this) },
+                            KafkaConsumer::class,
+                            "kafka-consumer"
                         )
                         sendResponse(resp, outputTopic)
                     } catch (ex: Exception) {

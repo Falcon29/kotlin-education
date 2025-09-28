@@ -62,7 +62,7 @@ class MapperToTransportTest {
     @Test
     fun toTransportCreateResponse() {
         val context = CCContext(
-            requestId = CCRequestId("1234"),
+            requestId = CCTicketRequestId("1234"),
             command = CCCommand.CREATE,
             ticketResponse = CCTicketStub.get(),
             errors = mutableListOf(
@@ -73,7 +73,7 @@ class MapperToTransportTest {
                     message = "wrong title",
                 )
             ),
-            state = CCTicketStatus.NEW,
+            state = CCState.RUNNING,
         )
 
         val res = context.toTransportTicket() as TicketCreateResponse

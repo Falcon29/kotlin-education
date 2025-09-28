@@ -43,7 +43,9 @@ class ControllerTest {
     private suspend fun TestApplicationCall.createTicket(appSettings: ICCAppSettings) {
         val resp = appSettings.controllerHelper(
             { fromTransport(receive<TicketCreateRequest>()) },
-            { toTransportTicket() }
+            { toTransportTicket() },
+            ControllerTest::class,
+            "controller-test"
         )
         respond(resp)
     }

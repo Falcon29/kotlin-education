@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
 import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+import org.gradle.kotlin.dsl.implementation
 
 plugins {
     alias(libs.plugins.kotlinx.serialization)
@@ -64,6 +65,9 @@ kotlin {
 
                 // Stubs
                 implementation(project(":contact-center-stubs"))
+
+                implementation(project(":contact-center-api-log"))
+                implementation("org.kotlined.cc.libs:contact-center-lib-common")
 
                 implementation(libs.kotlinx.serialization.core)
                 implementation(libs.kotlinx.serialization.json)

@@ -4,6 +4,7 @@ import org.kotlined.cc.api.v2.models.*
 import org.kotlined.common.CCContext
 import org.kotlined.common.models.CCCommand
 import org.kotlined.common.models.CCError
+import org.kotlined.common.models.CCState
 import org.kotlined.common.models.CCTicket
 import org.kotlined.common.models.CCTicketClientId
 import org.kotlined.common.models.CCTicketId
@@ -111,8 +112,8 @@ internal fun CCError.toTransportError() = Error(
     message = message.takeIf { it.isNotBlank() },
 )
 
-internal fun CCTicketStatus.toResult(): ResponseResult? = when (this) {
-    CCTicketStatus.NEW, CCTicketStatus.IN_PROGRESS -> ResponseResult.SUCCESS
-    CCTicketStatus.CLOSED -> ResponseResult.SUCCESS
-    CCTicketStatus.NONE -> null
+internal fun CCState.toResult(): ResponseResult? = when (this) {
+    CCState.RUNNING, CCState.FINISHING -> ResponseResult.SUCCESS
+    CCState.FAILING -> ResponseResult.SUCCESS
+    CCState.NONE -> null
 }

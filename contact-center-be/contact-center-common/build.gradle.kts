@@ -12,7 +12,7 @@ kotlin {
                 api("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
                 implementation(libs.kotlinx.serialization.core)
                 implementation(libs.kotlinx.serialization.json)
-                implementation("org.kotlined.cc.libs:contact-center-lib-common")
+                api("org.kotlined.cc.libs:contact-center-lib-common")
             }
         }
         commonTest {

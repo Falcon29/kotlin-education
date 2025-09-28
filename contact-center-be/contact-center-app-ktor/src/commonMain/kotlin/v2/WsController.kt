@@ -1,8 +1,6 @@
 package org.kotlined.cc.app.ktor.v2
 
-import io.ktor.websocket.Frame
-import io.ktor.websocket.WebSocketSession
-import io.ktor.websocket.readText
+import io.ktor.websocket.*
 import kotlinx.coroutines.channels.ClosedReceiveChannelException
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.mapNotNull
@@ -32,7 +30,9 @@ suspend fun WebSocketSession.wsHandlerV2(appSettings: CCAppSettings) = with(Ktor
             command = CCCommand.GET
             wsSession = this@with
         },
-        { outgoing.send(Frame.Text(apiV2ResponseSerialize(toTransportGet()))) }
+        { outgoing.send(Frame.Text(apiV2ResponseSerialize(toTransportGet()))) },
+        clWsV2,
+        "wsV2-init"
     )
 
     // Handle flow
@@ -50,7 +50,9 @@ suspend fun WebSocketSession.wsHandlerV2(appSettings: CCAppSettings) = with(Ktor
                         val result = apiV2ResponseSerialize(toTransportTicket())
                         // If change request, response is sent to everyone
                         outgoing.send(Frame.Text(result))
-                    }
+                    },
+                    clWsV2,
+                    "wsV2-handle"
                 )
 
             } catch (_: ClosedReceiveChannelException) {
@@ -66,7 +68,9 @@ suspend fun WebSocketSession.wsHandlerV2(appSettings: CCAppSettings) = with(Ktor
                     command = CCCommand.NONE
                     wsSession = this@with
                 },
-                { }
+                { },
+                clWsV2,
+                "wsV2-finish"
             )
             sessions.remove(this@with)
         }

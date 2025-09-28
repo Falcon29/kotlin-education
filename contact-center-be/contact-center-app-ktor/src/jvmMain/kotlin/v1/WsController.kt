@@ -17,8 +17,9 @@ import org.kotlined.cc.mappers.v1.fromTransport
 import org.kotlined.cc.mappers.v1.toTransportGet
 import org.kotlined.cc.mappers.v1.toTransportTicket
 import org.kotlined.common.models.CCCommand
+import kotlin.reflect.KClass
 
-//private val clWsV1: KClass<*> = WebSocketSession::wsHandlerV1::class
+private val clWsV1: KClass<*> = WebSocketSession::wsHandlerV1::class
 suspend fun WebSocketSession.wsHandlerV1(appSettings: CCAppSettings) = with(KtorWsSessionV1(this)) {
     val sessions = appSettings.corSettings.wsSession
     sessions.add(this)
@@ -29,7 +30,9 @@ suspend fun WebSocketSession.wsHandlerV1(appSettings: CCAppSettings) = with(Ktor
             command = CCCommand.GET
             wsSession = this@with
         },
-        { outgoing.send(Frame.Text(apiV1Mapper.writeValueAsString(toTransportGet()))) }
+        { outgoing.send(Frame.Text(apiV1Mapper.writeValueAsString(toTransportGet()))) },
+        clWsV1,
+        "wsV1-init"
     )
 
     // Handle flow
@@ -46,7 +49,9 @@ suspend fun WebSocketSession.wsHandlerV1(appSettings: CCAppSettings) = with(Ktor
                     val result = apiV1Mapper.writeValueAsString(toTransportTicket())
                     // If change request, response is sent to everyone
                     outgoing.send(Frame.Text(result))
-                }
+                },
+                clWsV1,
+                "wsV1-handle"
             )
 
         } catch (_: ClosedReceiveChannelException) {
@@ -59,6 +64,8 @@ suspend fun WebSocketSession.wsHandlerV1(appSettings: CCAppSettings) = with(Ktor
                     wsSession = this@with
                 },
                 { },
+                clWsV1,
+                "wsV1-finish"
             )
             sessions.remove(this@with)
         }

@@ -28,6 +28,7 @@ plugins {
 //implementation(projects.m2l5Gradle.sub1.ssub1)
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
+include(":contact-center-api-log")
 include(":contact-center-api-v1-jackson")
 include(":contact-center-api-v1-mappers")
 include(":contact-center-api-v2-multiplatform")

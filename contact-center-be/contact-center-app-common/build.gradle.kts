@@ -12,7 +12,7 @@ kotlin {
 
                 // transport models
                 implementation(project(":contact-center-common"))
-//                implementation(project(":contact-center-api-log1"))
+                implementation(project(":contact-center-api-log"))
                 implementation(project(":contact-center-api-v2-multiplatform"))
 
                 implementation(project(":contact-center-biz"))

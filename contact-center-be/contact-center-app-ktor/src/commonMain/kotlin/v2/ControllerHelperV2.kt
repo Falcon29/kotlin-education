@@ -9,12 +9,17 @@ import org.kotlined.cc.api.v2.models.IRequest
 import org.kotlined.cc.api.v2.models.IResponse
 import org.kotlined.cc.app.common.controllerHelper
 import org.kotlined.cc.app.ktor.CCAppSettings
+import kotlin.reflect.KClass
 
 suspend inline fun <reified Q : IRequest, @Suppress("unused") reified R : IResponse> ApplicationCall.processV2(
-    appSettings: CCAppSettings
+    appSettings: CCAppSettings,
+    clazz: KClass<*>,
+    logId: String,
 ) = appSettings.controllerHelper(
     {
         fromTransport(this@processV2.receive<Q>())
     },
-    { this@processV2.respond(toTransportTicket() as R) }
+    { this@processV2.respond(toTransportTicket() as R) },
+    clazz,
+    logId,
 )
