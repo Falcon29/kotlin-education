@@ -33,6 +33,7 @@ class CCProcessor(
                 worker("Очистка id") { ticketValidating.id = CCTicketId.NONE }
                 worker("Очистка заголовка") { ticketValidating.title = ticketValidating.title.trim() }
                 worker("Очистка описания") { ticketValidating.description = ticketValidating.description.trim() }
+                validateTitleIsNotEmpty("Проверка заголовка")
                 validateTitleHasContent("Проверка заголовка")
                 finishValidation("Завершение проверок")
             }
@@ -75,6 +76,7 @@ class CCProcessor(
                 worker("Очистка id") { ticketValidating.id = CCTicketId.NONE }
                 worker("Очистка заголовка") { ticketValidating.title = ticketValidating.title.trim() }
                 worker("Очистка описания") { ticketValidating.description = ticketValidating.description.trim() }
+                validateTitleIsNotEmpty("Проверка заголовка")
                 validateTitleHasContent("Проверка заголовка")
                 validateDescription("Проверка описания")
                 finishValidation("Завершение проверок")

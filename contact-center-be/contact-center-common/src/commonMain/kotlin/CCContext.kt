@@ -10,6 +10,7 @@ data class CCContext(
     val errors: MutableList<CCError> = mutableListOf(),
 
     var corSettings: CCCorSettings = CCCorSettings(),
+    var stubCase: CCStubs = CCStubs.NONE,
     var workMode: CCWorkMode = CCWorkMode.PROD,
     var wsSession: ICCWsSession = ICCWsSession.NONE,
 

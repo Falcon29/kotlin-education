@@ -1,7 +1,6 @@
 package org.kotlined.cc.stubs
 
 import org.kotlined.common.models.*
-import kotlin.time.Instant
 
 object TicketStub {
 
@@ -14,8 +13,8 @@ object TicketStub {
             priority = CCTicketPriority.HIGH,
             clientId = CCTicketClientId("client-001"),
             operatorId = CCTicketOperatorId.NONE,
-            createdAt = Instant.parse("2025-09-28T10:00:00Z").toString(),
-            updatedAt = Instant.parse("2025-09-28T10:00:00Z").toString(),
+//            createdAt = "2025-09-28T18:56:00.477171100Z",
+//            updatedAt = "2025-09-28T18:56:00.477171100Z",
             permissions = mutableListOf(
                 CCTicketPermission.READ,
                 CCTicketPermission.UPDATE,

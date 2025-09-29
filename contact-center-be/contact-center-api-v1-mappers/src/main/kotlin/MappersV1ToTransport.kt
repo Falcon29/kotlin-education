@@ -67,8 +67,8 @@ fun CCTicket.toTransportTicket(): TicketObject = TicketObject(
     clientId = clientId.takeIf { it != CCTicketClientId.NONE }?.asString(),
     operatorId = operatorId.takeIf { it != CCTicketOperatorId.NONE }?.asString(),
     priority = priority.toTransportPriority(),
-    createdAt = createdAt.takeIf { it.isNotBlank() },
-    updatedAt = updatedAt.takeIf { it.isNotBlank() },
+//    createdAt = createdAt.takeIf { it.isNotBlank() },
+//    updatedAt = updatedAt.takeIf { it.isNotBlank() },
     permissions = permissions.toTransportPermissions()
 )
 
