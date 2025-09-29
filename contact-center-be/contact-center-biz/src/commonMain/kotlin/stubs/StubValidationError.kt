@@ -13,7 +13,7 @@ fun ICorChainDsl<CCContext>.stubValidationBadID(title: String) = worker {
     this.description = """
         Кейс ошибки валидации для идентификатора тикета
     """.trimIndent()
-    on { state == CCState.RUNNING }
+    on { stubCase == CCStubs.BAD_ID && state == CCState.RUNNING }
     handle {
         fail(
             CCError(
@@ -50,7 +50,7 @@ fun ICorChainDsl<CCContext>.stubValidationBadDescription(title: String) = worker
     this.description = """
         Кейс ошибки валидации для описания обращения
     """.trimIndent()
-    on { state == CCState.RUNNING }
+    on { stubCase == CCStubs.BAD_DESCRIPTION && state == CCState.RUNNING }
     handle {
         fail(
             CCError(

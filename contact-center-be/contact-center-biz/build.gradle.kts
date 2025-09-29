@@ -5,7 +5,7 @@ plugins {
 kotlin {
     sourceSets {
         all { languageSettings.optIn("kotlin.RequiresOptIn") }
-
+//        jvm { withJava() }
         commonMain {
             dependencies {
                 implementation(kotlin("stdlib-common"))

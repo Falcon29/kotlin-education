@@ -1,4 +1,4 @@
-package org.kotlined.base
+package org.kotlined.cc.app.ktor.base
 
 import io.ktor.websocket.Frame
 import io.ktor.websocket.WebSocketSession

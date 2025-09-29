@@ -3,6 +3,7 @@ package org.kotlined.cc.app.common
 import kotlinx.datetime.Clock
 import org.kotlined.cc.api.log.mapper.toLog
 import org.kotlined.common.CCContext
+import org.kotlined.common.helpers.asCCError
 import org.kotlined.common.models.CCCommand
 import org.kotlined.common.models.CCState
 import kotlin.reflect.KClass
@@ -39,6 +40,7 @@ suspend inline fun <T> ICCAppSettings.controllerHelper(
             e = e,
         )
         ctx.state = CCState.FAILING
+        ctx.errors.add(e.asCCError())
         processor.exec(ctx)
         if (ctx.command == CCCommand.NONE) {
             ctx.command = CCCommand.GET

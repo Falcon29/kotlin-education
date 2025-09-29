@@ -5,6 +5,7 @@ import org.kotlined.cc.stubs.TicketStubs
 import org.kotlined.common.CCContext
 import org.kotlined.common.CCCorSettings
 import org.kotlined.common.models.CCState
+import org.kotlined.common.models.CCStubs
 import org.kotlined.common.models.CCTicketOperatorId
 import org.kotlined.common.models.CCTicketPriority
 import org.kotlined.cor.ICorChainDsl
@@ -15,7 +16,7 @@ fun ICorChainDsl<CCContext>.stubCreateSuccess(title: String, corSettings: CCCorS
     this.description = """
         Успешное создание тикета
     """.trimIndent()
-    on { state == CCState.RUNNING }
+    on { stubCase == CCStubs.SUCCESS && state == CCState.RUNNING }
     val logger = corSettings.loggerProvider.logger("stubCreateSuccess")
     handle {
         logger.doWithLogging(id = this.requestId.asString(), LogLevel.DEBUG) {
@@ -35,7 +36,7 @@ fun ICorChainDsl<CCContext>.stubUpdateSuccess(title: String, corSettings: CCCorS
     this.description = """
         Успешное обновление тикета
     """.trimIndent()
-    on { state == CCState.RUNNING }
+    on { stubCase == CCStubs.SUCCESS && state == CCState.RUNNING }
     val logger = corSettings.loggerProvider.logger("stubUpdateSuccess")
     handle {
         logger.doWithLogging(id = this.requestId.asString(), LogLevel.DEBUG) {
@@ -43,7 +44,7 @@ fun ICorChainDsl<CCContext>.stubUpdateSuccess(title: String, corSettings: CCCorS
             val stub = TicketStubs.prepareResult {
                 ticketRequest.title.takeIf { it.isNotBlank() }?.also { this.title = it }
                 ticketRequest.description.takeIf { it.isNotBlank() }?.also { this.description = it }
-                ticketRequest.priority.takeIf { it != CCTicketPriority.MEDIUM }?.also { this.priority = it }
+                ticketRequest.priority.takeIf { it != CCTicketPriority.NONE }?.also { this.priority = it }
             }
             ticketResponse = stub
         }
@@ -55,7 +56,7 @@ fun ICorChainDsl<CCContext>.stubAssignSuccess(title: String, corSettings: CCCorS
     this.description = """
         Успешное назначение тикета на оператора
     """.trimIndent()
-    on { state == CCState.RUNNING }
+    on { stubCase == CCStubs.SUCCESS && state == CCState.RUNNING }
     val logger = corSettings.loggerProvider.logger("stubAssignSuccess")
     handle {
         logger.doWithLogging(id = this.requestId.asString(), LogLevel.DEBUG) {
@@ -73,7 +74,7 @@ fun ICorChainDsl<CCContext>.stubGetSuccess(title: String, corSettings: CCCorSett
     this.description = """
         Успешное получение/чтение тикета
     """.trimIndent()
-    on { state == CCState.RUNNING }
+    on { stubCase == CCStubs.SUCCESS && state == CCState.RUNNING }
     val logger = corSettings.loggerProvider.logger("stubGetSuccess")
     handle {
         logger.doWithLogging(id = this.requestId.asString(), LogLevel.DEBUG) {

@@ -1,47 +1,47 @@
 package org.kotlined.cc.biz
 
 import kotlinx.coroutines.test.runTest
-import org.kotlined.cc.stubs.TicketStubs
 import org.kotlined.common.CCContext
-import org.kotlined.common.models.*
+import org.kotlined.common.models.CCCommand
+import org.kotlined.common.models.CCState
+import org.kotlined.common.models.CCStubs
+import org.kotlined.common.models.CCTicket
+import org.kotlined.common.models.CCTicketId
+import org.kotlined.common.models.CCTicketPriority
+import org.kotlined.common.models.CCWorkMode
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class TicketCreateStubTest {
+class TicketUpdateStubTest {
     private val processor = CCProcessor()
     val id = CCTicketId("ticketId0")
     val title = "Test Title"
     val description = "Ticket test desc"
     val priority = CCTicketPriority.MEDIUM
-//    val permissions = mutableListOf(CCTicketPermission.CHANGE_PRIORITY)
 
     @Test
-    fun createTicketTest() = runTest {
+    fun updateTicketTest() = runTest {
         val ctx = CCContext(
-            command = CCCommand.CREATE,
+            command = CCCommand.UPDATE,
             state = CCState.NONE,
             workMode = CCWorkMode.STUB,
             stubCase = CCStubs.SUCCESS,
             ticketRequest = CCTicket(
-                id = id,
                 title = title,
                 description = description,
                 priority = priority,
-//                permissions = permissions
             )
         )
         processor.exec(ctx)
-        assertEquals(TicketStubs.get().id, ctx.ticketResponse.id)
         assertEquals(title, ctx.ticketResponse.title)
         assertEquals(description, ctx.ticketResponse.description)
         assertEquals(priority, ctx.ticketResponse.priority)
-//        assertEquals(permissions, ctx.ticketResponse.permissions)
     }
 
     @Test
-    fun createWithBadTitleTest() = runTest {
+    fun updateWithBadTitleTest() = runTest {
         val ctx = CCContext(
-            command = CCCommand.CREATE,
+            command = CCCommand.UPDATE,
             state = CCState.RUNNING,
             workMode = CCWorkMode.STUB,
             stubCase = CCStubs.BAD_TITLE,
@@ -49,8 +49,7 @@ class TicketCreateStubTest {
                 id = id,
                 title = "",
                 description = description,
-                priority = priority,
-//                permissions = permissions
+                priority = priority
             )
         )
         processor.exec(ctx)
@@ -60,19 +59,22 @@ class TicketCreateStubTest {
     }
 
     @Test
-    fun databaseError() = runTest {
+    fun updateWithBadDescriptionTest() = runTest {
         val ctx = CCContext(
-            command = CCCommand.GET,
-            state = CCState.NONE,
+            command = CCCommand.UPDATE,
+            state = CCState.RUNNING,
             workMode = CCWorkMode.STUB,
-            stubCase = CCStubs.DB_ERROR,
+            stubCase = CCStubs.BAD_DESCRIPTION,
             ticketRequest = CCTicket(
                 id = id,
-            ),
+                title = title,
+                description = "",
+                priority = priority
+            )
         )
         processor.exec(ctx)
         assertEquals(CCTicket(), ctx.ticketResponse)
-        assertEquals("internal", ctx.errors.firstOrNull()?.group)
+        assertEquals("description", ctx.errors.firstOrNull()?.field)
+        assertEquals("validation", ctx.errors.firstOrNull()?.group)
     }
-
 }

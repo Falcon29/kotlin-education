@@ -4,6 +4,7 @@ import org.kotlined.common.CCContext
 import org.kotlined.common.helpers.fail
 import org.kotlined.common.models.CCError
 import org.kotlined.common.models.CCState
+import org.kotlined.common.models.CCStubs
 import org.kotlined.cor.ICorChainDsl
 import org.kotlined.cor.worker
 
@@ -12,7 +13,7 @@ fun ICorChainDsl<CCContext>.stubDbError(title: String) = worker {
     this.description = """
         Кейс ошибки базы данных
     """.trimIndent()
-    on { state == CCState.RUNNING }
+    on { stubCase == CCStubs.DB_ERROR && state == CCState.RUNNING }
     handle {
         fail(
             CCError(

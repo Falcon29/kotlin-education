@@ -1,4 +1,4 @@
-package org.kotlined
+package org.kotlined.cc.app.ktor
 
 import io.ktor.serialization.jackson.*
 import io.ktor.server.application.*
@@ -10,11 +10,8 @@ import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import org.kotlined.cc.api.v1.apiV1Mapper
-import org.kotlined.cc.app.ktor.CCAppSettings
-import org.kotlined.cc.app.ktor.initAppSettings
-import org.kotlined.cc.app.ktor.module
-import org.kotlined.v1.v1Ticket
-import org.kotlined.v1.wsHandlerV1
+import org.kotlined.cc.app.ktor.v1.v1Ticket
+import org.kotlined.cc.app.ktor.v1.wsHandlerV1
 import org.slf4j.event.Level
 
 fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)

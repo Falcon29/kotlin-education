@@ -19,7 +19,7 @@ class CCProcessor(
 
     suspend fun exec(ctx: CCContext) = businessChain.exec(ctx.also { it.corSettings = corSettings })
 
-    private val businessChain = rootChain {
+    private val businessChain = rootChain<CCContext> {
         initStatus("Начальный статус обработки непонятно чего")
 
         operation("Создание тикета", CCCommand.CREATE) {
@@ -27,6 +27,7 @@ class CCProcessor(
                 stubCreateSuccess("Успешное создание", corSettings)
                 stubValidationBadTitle("Ошибка валидации заголовка")
                 stubDbError("Ошибка работы с БД")
+                stubNoCase("Стаб недопустим")
             }
             validation {
                 worker("Копируем поля в ticketValidating") { ticketValidating = ticketRequest.copy() }
@@ -43,6 +44,7 @@ class CCProcessor(
                 stubAssignSuccess("Успешно назначен на оператора", corSettings)
                 stubValidationBadID("Ошибка валидации ID")
                 stubDbError("Ошибка работы с БД")
+                stubNoCase("Стаб недопустим")
             }
             validation {
                 worker("Копируем поля в ticketValidating") { ticketValidating = ticketRequest.copy() }
@@ -56,6 +58,7 @@ class CCProcessor(
                 stubGetSuccess("Успешно получен оператором", corSettings)
                 stubValidationBadID("Ошибка валидации ID")
                 stubDbError("Ошибка работы с БД")
+                stubNoCase("Стаб недопустим")
             }
             validation {
                 worker("Копируем поля в ticketValidating") { ticketValidating = ticketRequest.copy() }
@@ -70,6 +73,7 @@ class CCProcessor(
                 stubValidationBadTitle("Ошибка валидации заголовка")
                 stubValidationBadDescription("Ошибка валидации описания")
                 stubDbError("Ошибка работы с БД")
+                stubNoCase("Стаб недопустим")
             }
             validation {
                 worker("Копируем поля в ticketValidating") { ticketValidating = ticketRequest.copy() }
