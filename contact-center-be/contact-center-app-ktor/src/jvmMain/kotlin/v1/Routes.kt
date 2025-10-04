@@ -1,4 +1,4 @@
-package org.kotlined.v1
+package org.kotlined.cc.app.ktor.v1
 
 import io.ktor.server.application.call
 import io.ktor.server.routing.Route

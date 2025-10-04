@@ -42,7 +42,7 @@ private fun CCTicket.toLog() = TicketLog(
     priority = priority.takeIf { it != CCTicketPriority.NONE }?.name,
     clientId = clientId.takeIf { it != CCTicketClientId.NONE }?.asString(),
     operatorId = operatorId.takeIf { it != CCTicketOperatorId.NONE }?.asString(),
-    createdAt = createdAt.takeIf { it.isNotBlank() },
-    updatedAt = updatedAt.takeIf { it.isNotBlank() },
+//    createdAt = createdAt.takeIf { it.isNotBlank() },
+//    updatedAt = updatedAt.takeIf { it.isNotBlank() },
     permissions = permissions.takeIf { it.isNotEmpty() }?.map { it.name }?.toSet(),
 )

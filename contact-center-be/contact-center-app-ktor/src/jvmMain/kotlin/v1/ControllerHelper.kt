@@ -1,8 +1,8 @@
-package org.kotlined.v1
+package org.kotlined.cc.app.ktor.v1
 
-import io.ktor.server.application.ApplicationCall
-import io.ktor.server.request.receive
-import io.ktor.server.response.respond
+import io.ktor.server.application.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
 import org.kotlined.cc.api.v1.models.IRequest
 import org.kotlined.cc.api.v1.models.IResponse
 import org.kotlined.cc.app.common.controllerHelper

@@ -10,8 +10,8 @@ data class CCTicket(
     var clientId: CCTicketClientId = CCTicketClientId.NONE,
     var operatorId: CCTicketOperatorId = CCTicketOperatorId.NONE,
     var priority: CCTicketPriority = CCTicketPriority.NONE,
-    var createdAt: String = Clock.System.now().toString(),
-    var updatedAt: String = Clock.System.now().toString(),
+//    var createdAt: String = Clock.System.now().toString(),
+//    var updatedAt: String = Clock.System.now().toString(),
     var permissions: MutableList<CCTicketPermission> = mutableListOf(),
 ) {
     fun isEmpty() = this == NONE

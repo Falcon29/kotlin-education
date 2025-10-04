@@ -5,13 +5,22 @@ plugins {
 kotlin {
     sourceSets {
         all { languageSettings.optIn("kotlin.RequiresOptIn") }
-
+//        jvm { withJava() }
         commonMain {
             dependencies {
                 implementation(kotlin("stdlib-common"))
+                implementation(libs.cor)
 
                 implementation(project(":contact-center-common"))
                 implementation(project(":contact-center-stubs"))
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+
+                api(libs.coroutines.test)
             }
         }
         jvmMain {
