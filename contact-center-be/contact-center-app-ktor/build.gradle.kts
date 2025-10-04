@@ -36,7 +36,7 @@ kotlin {
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
         binaries {
             executable {
-                entryPoint = "org.kotlined.app.ktor.main"
+                entryPoint = "org.kotlined.cc.app.ktor.main"
             }
         }
     }

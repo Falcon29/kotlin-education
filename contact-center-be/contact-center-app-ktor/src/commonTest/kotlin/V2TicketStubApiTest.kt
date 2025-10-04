@@ -1,23 +1,22 @@
 package org.kotlined.cc.app.ktor
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import io.ktor.serialization.jackson.*
+import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.testing.*
-import org.kotlined.cc.api.v1.models.*
+import org.kotlined.cc.api.v2.apiV2Mapper
+import org.kotlined.cc.api.v2.models.*
 import org.kotlined.common.CCCorSettings
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class V1TicketStubApiTest {
+class V2TicketStubApiTest {
 
     @Test
-    fun create() = v1TestApplication(
+    fun create() = v2TestApplication<IRequest>(
         func = "create",
         request = TicketCreateRequest(
             ticket = TicketCreateObject(
@@ -35,7 +34,7 @@ class V1TicketStubApiTest {
     }
 
     @Test
-    fun get() = v1TestApplication(
+    fun get() = v2TestApplication<IRequest>(
         func = "get",
         request = TicketGetRequest(
             ticket = TicketGetObject(id = "12345")
@@ -47,7 +46,7 @@ class V1TicketStubApiTest {
     }
 
     @Test
-    fun update() = v1TestApplication(
+    fun update() = v2TestApplication<IRequest>(
         func = "update",
         request = TicketUpdateRequest(
             ticket = TicketUpdateObject(
@@ -66,7 +65,7 @@ class V1TicketStubApiTest {
     }
 
     @Test
-    fun assign() = v1TestApplication(
+    fun assign() = v2TestApplication<IRequest>(
         func = "assign",
         request = TicketAssignRequest(
             assignment = TicketAssignObject(ticketId = "12345", operatorId = "1002")
@@ -78,7 +77,7 @@ class V1TicketStubApiTest {
     }
 
 //    @Test
-//    fun list() = v1TestApplication(
+//    fun list() = v2TestApplication(
 //        func = "list",
 //        request = TicketListRequest(
 //            ...
@@ -89,23 +88,18 @@ class V1TicketStubApiTest {
 //        assertEquals(..., responseObj.ticketList ...)
 //    }
 
-    private fun v1TestApplication(
+    private inline fun <reified T : IRequest> v2TestApplication(
         func: String,
         request: IRequest,
-        function: suspend (HttpResponse) -> Unit,
+        crossinline function: suspend (HttpResponse) -> Unit,
     ): Unit = testApplication {
-        application { moduleJvm(CCAppSettings(corSettings = CCCorSettings())) }
+        application { module(CCAppSettings(corSettings = CCCorSettings())) }
         val client = createClient {
             install(ContentNegotiation) {
-                jackson {
-                    disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-
-                    enable(SerializationFeature.INDENT_OUTPUT)
-                    writerWithDefaultPrettyPrinter()
-                }
+                json(apiV2Mapper)
             }
         }
-        val response = client.post("/v1/ticket/$func") {
+        val response = client.post("/v2/ticket/$func") {
             contentType(ContentType.Application.Json)
             setBody(request)
         }

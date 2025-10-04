@@ -6,7 +6,7 @@ plugins {
 }
 
 application {
-    mainClass.set("org.kotlined.cc.app.kafka.MainKt")
+    mainClass.set("org.kotlined.cc.kafka.MainKt")
 }
 
 docker {
