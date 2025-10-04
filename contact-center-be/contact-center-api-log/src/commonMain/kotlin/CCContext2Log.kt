@@ -11,7 +11,7 @@ import org.kotlined.common.models.*
 fun CCContext.toLog(logId: String) = CommonLogModel(
     messageTime = Clock.System.now().toString(),
     logId = logId,
-    source = "ok-contact-center",
+    source = "contact-center",
     tickets = toCcLog(),
     errors = errors.map { it.toLog() },
 )

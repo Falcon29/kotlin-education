@@ -7,7 +7,7 @@ import io.ktor.server.routing.route
 import org.kotlined.cc.app.ktor.CCAppSettings
 
 fun Route.v1Ticket(appSettings: CCAppSettings) {
-    route("ad") {
+    route("ticket") {
         post("create") {
             call.createTicket(appSettings)
         }
