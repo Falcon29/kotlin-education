@@ -6,4 +6,4 @@ ktor:
     - resources
   application:
     modules:
-      - "org.kotlined.app.ktor.ApplicationJvmKt.module"
+      - "org.kotlined.cc.app.ktor.ApplicationKt.module"

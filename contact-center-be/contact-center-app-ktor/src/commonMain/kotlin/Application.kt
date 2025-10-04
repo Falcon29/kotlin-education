@@ -18,6 +18,8 @@ import org.kotlined.cc.api.v2.apiV2Mapper
 import org.kotlined.cc.app.ktor.v2.v2Ticket
 import org.kotlined.cc.app.ktor.v2.wsHandlerV2
 
+fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
+
 fun Application.module(
     appSettings: CCAppSettings = initAppSettings()
 ) {
