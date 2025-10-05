@@ -71,7 +71,6 @@ class V2TicketStubApiTest {
     ) { response ->
         val responseObj = response.body<TicketUpdateResponse>()
         assertEquals(200, response.status.value)
-        assertEquals(200, response.status.value)
         assertEquals("Ticketus", responseObj.ticket?.title)
         assertEquals("with descus", responseObj.ticket?.description)
         assertEquals(TicketPriority.HIGH, responseObj.ticket?.priority)

@@ -1,0 +1,24 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/v2/ticket/get"
+  },
+
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "responseType": "get",
+      "result": "success",
+      "ticket": {
+        "id": "{{{jsonPath request.body '$.ticket.id'}}}",
+        "title": "Ticket for help",
+        "description": "Hardcoded ticket json description",
+        "priority": "high"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "transformers": ["response-template"]
+  }
+}

@@ -14,3 +14,4 @@ rootProject.name = "kotlined"
 //includeBuild("lessons")
 includeBuild("contact-center-be")
 includeBuild("contact-center-libs")
+includeBuild("contact-center-e2e-tests")

@@ -1,0 +1,24 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/v1/ticket/create"
+  },
+
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "responseType": "create",
+      "result": "success",
+      "ticket": {
+        "id": "ticket-123",
+        "title": "{{{jsonPath request.body '$.ticket.title'}}}",
+        "description": "Hardcoded ticket json description",
+        "priority": "high"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "transformers": ["response-template"]
+  }
+}
