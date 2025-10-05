@@ -6,6 +6,7 @@ import org.kotlined.common.CCContext
 import org.kotlined.common.CCCorSettings
 import org.kotlined.common.models.CCState
 import org.kotlined.common.models.CCStubs
+import org.kotlined.common.models.CCTicketId
 import org.kotlined.common.models.CCTicketOperatorId
 import org.kotlined.common.models.CCTicketPriority
 import org.kotlined.cor.ICorChainDsl
@@ -62,7 +63,8 @@ fun ICorChainDsl<CCContext>.stubAssignSuccess(title: String, corSettings: CCCorS
         logger.doWithLogging(id = this.requestId.asString(), LogLevel.DEBUG) {
             state = CCState.FINISHING
             val stub = TicketStubs.prepareResult {
-                ticketRequest.operatorId.takeIf { it == CCTicketOperatorId.NONE }?.also { this.operatorId = it }
+//                this.operatorId = ticketRequest.operatorId
+                ticketRequest.operatorId.takeIf { it != CCTicketOperatorId.NONE }?.also { this.operatorId = it }
             }
             ticketResponse = stub
         }
@@ -80,7 +82,8 @@ fun ICorChainDsl<CCContext>.stubGetSuccess(title: String, corSettings: CCCorSett
         logger.doWithLogging(id = this.requestId.asString(), LogLevel.DEBUG) {
             state = CCState.FINISHING
             val stub = TicketStubs.prepareResult {
-                ticketRequest.title.takeIf { it.isNotBlank() }?.also { this.title = it }
+                ticketRequest.id.takeIf { it != this.id || it == CCTicketId.NONE }?.also { this.id = it }
+//                ticketRequest.title.takeIf { it.isNotBlank() }?.also { this.title = it }
             }
             ticketResponse = stub
         }

@@ -54,12 +54,12 @@ fun CCContext.toTransportList() = TicketListResponse(
     tickets = ticketListResponse.toTransportTicket()
 )
 
-fun List<CCTicket>.toTransportTicket(): List<TicketObject>? = this
+fun List<CCTicket>.toTransportTicket(): List<TicketResponseObject>? = this
     .map { it.toTransportTicket() }
     .toList()
     .takeIf { it.isNotEmpty() }
 
-fun CCTicket.toTransportTicket(): TicketObject = TicketObject(
+fun CCTicket.toTransportTicket(): TicketResponseObject = TicketResponseObject(
     id = id.toTransportTicket(),
     title = title.takeIf { it.isNotBlank() },
     description = description.takeIf { it.isNotBlank() },

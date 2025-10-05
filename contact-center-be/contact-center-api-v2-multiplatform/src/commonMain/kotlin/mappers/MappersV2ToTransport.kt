@@ -2,16 +2,7 @@ package org.kotlined.cc.api.v2.mappers
 
 import org.kotlined.cc.api.v2.models.*
 import org.kotlined.common.CCContext
-import org.kotlined.common.models.CCCommand
-import org.kotlined.common.models.CCError
-import org.kotlined.common.models.CCState
-import org.kotlined.common.models.CCTicket
-import org.kotlined.common.models.CCTicketClientId
-import org.kotlined.common.models.CCTicketId
-import org.kotlined.common.models.CCTicketOperatorId
-import org.kotlined.common.models.CCTicketPermission
-import org.kotlined.common.models.CCTicketPriority
-import org.kotlined.common.models.CCTicketStatus
+import org.kotlined.common.models.*
 
 fun CCContext.toTransportTicket(): IResponse = when (command) {
     CCCommand.CREATE -> toTransportCreate()
@@ -52,12 +43,12 @@ fun CCContext.toTransportList() = TicketListResponse(
     tickets = ticketListResponse.toTransportTicket()
 )
 
-fun List<CCTicket>.toTransportTicket(): List<TicketObject>? = this
+fun List<CCTicket>.toTransportTicket(): List<TicketResponseObject>? = this
     .map { it.toTransportTicket() }
     .toList()
     .takeIf { it.isNotEmpty() }
 
-fun CCTicket.toTransportTicket(): TicketObject = TicketObject(
+fun CCTicket.toTransportTicket(): TicketResponseObject = TicketResponseObject(
     id = id.toTransportTicket(),
     title = title.takeIf { it.isNotBlank() },
     description = description.takeIf { it.isNotBlank() },

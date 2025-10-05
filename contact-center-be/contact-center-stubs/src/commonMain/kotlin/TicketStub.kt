@@ -18,9 +18,7 @@ object TicketStub {
             permissions = mutableListOf(
                 CCTicketPermission.READ,
                 CCTicketPermission.UPDATE,
-                CCTicketPermission.CLOSE,
-                CCTicketPermission.ASSIGN,
-                CCTicketPermission.CHANGE_PRIORITY
+                CCTicketPermission.CLOSE
             )
         )
 }

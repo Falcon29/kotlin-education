@@ -22,11 +22,16 @@ class V2TicketStubApiTest {
             ticket = TicketCreateObject(
                 title = "Ticket",
                 description = "with desc",
-                priority = TicketPriority.MEDIUM
+                priority = TicketPriority.MEDIUM,
+            ),
+            debug = TicketDebug(
+                mode = TicketRequestDebugMode.STUB,
+                stub = TicketRequestDebugStubs.SUCCESS
             )
-        ),
+        )
     ) { response ->
         val responseObj = response.body<TicketCreateResponse>()
+        println(responseObj.toString())
         assertEquals(200, response.status.value)
         assertEquals("Ticket", responseObj.ticket?.title)
         assertEquals("with desc", responseObj.ticket?.description)
@@ -37,7 +42,11 @@ class V2TicketStubApiTest {
     fun get() = v2TestApplication<IRequest>(
         func = "get",
         request = TicketGetRequest(
-            ticket = TicketGetObject(id = "12345")
+            ticket = TicketGetObject(id = "12345"),
+            debug = TicketDebug(
+                mode = TicketRequestDebugMode.STUB,
+                stub = TicketRequestDebugStubs.SUCCESS
+            )
         ),
     ) { response ->
         val responseObj = response.body<TicketGetResponse>()
@@ -53,6 +62,10 @@ class V2TicketStubApiTest {
                 title = "Ticketus",
                 description = "with descus",
                 priority = TicketPriority.HIGH
+            ),
+            debug = TicketDebug(
+                mode = TicketRequestDebugMode.STUB,
+                stub = TicketRequestDebugStubs.SUCCESS
             )
         ),
     ) { response ->
@@ -68,7 +81,11 @@ class V2TicketStubApiTest {
     fun assign() = v2TestApplication<IRequest>(
         func = "assign",
         request = TicketAssignRequest(
-            assignment = TicketAssignObject(ticketId = "12345", operatorId = "1002")
+            assignment = TicketAssignObject(ticketId = "12345", operatorId = "1002"),
+            debug = TicketDebug(
+                mode = TicketRequestDebugMode.STUB,
+                stub = TicketRequestDebugStubs.SUCCESS
+            )
         ),
     ) { response ->
         val responseObj = response.body<TicketAssignResponse>()
@@ -90,7 +107,7 @@ class V2TicketStubApiTest {
 
     private inline fun <reified T : IRequest> v2TestApplication(
         func: String,
-        request: IRequest,
+        request: T,
         crossinline function: suspend (HttpResponse) -> Unit,
     ): Unit = testApplication {
         application { module(CCAppSettings(corSettings = CCCorSettings())) }

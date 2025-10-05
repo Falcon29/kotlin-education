@@ -184,27 +184,54 @@ components:
       type: string
       description: Unique identifier for a ticket
       example: "ticket:12345"
-
     UserId:
       type: string
       description: User identifier (client or operator)
       example: "client:67890"
-
+    TicketLock:
+      type: string
+      description: Optimistic block type
     TicketStatus:
       type: string
-      description: Status of the ticket
-      enum:
-        - new
-        - in_progress
-        - closed
-
+      enum: [ new, in_progress, closed ]
     TicketPriority:
       type: string
-      description: Priority level of the ticket
+      enum: [ low, medium, high ]
+
+    # Debug Support
+    TicketRequestDebugMode:
+      type: string
       enum:
-        - low
-        - medium
-        - high
+        - prod
+        - test
+        - stub
+
+    TicketRequestDebugStubs:
+      type: string
+      enum:
+        - success
+        - bad_id
+        - bad_title
+        - bad_description
+        - db_error
+#        - not_found
+#        - validation_error
+#        - permission_denied  -- в нормальном приложении это важно
+#        - too_many_tickets
+
+    TicketDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/TicketRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/TicketRequestDebugStubs'
+
+    TicketRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/TicketDebug'
 
     # Request Objects
     TicketCreateObject:
@@ -212,18 +239,15 @@ components:
       properties:
         title:
           type: string
-          description: Title of the ticket
-          example: "Problem with login"
         description:
           type: string
-          description: Detailed description of the issue
-          example: "Cannot login since morning"
         priority:
           $ref: '#/components/schemas/TicketPriority'
 
     TicketCreateRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/TicketRequestDebug'
         - type: object
           properties:
             ticket:
@@ -234,6 +258,8 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/TicketId'
+        lock:
+          $ref: "#/components/schemas/TicketLock"
         title:
           type: string
           nullable: true
@@ -250,6 +276,7 @@ components:
     TicketUpdateRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/TicketRequestDebug'
         - type: object
           properties:
             ticket:
@@ -264,6 +291,7 @@ components:
     TicketGetRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/TicketRequestDebug'
         - type: object
           properties:
             ticket:
@@ -288,6 +316,7 @@ components:
     TicketListRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/TicketRequestDebug'
         - type: object
           properties:
             filter:
@@ -304,13 +333,14 @@ components:
     TicketAssignRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/TicketRequestDebug'
         - type: object
           properties:
             assignment:
               $ref: '#/components/schemas/TicketAssignObject'
 
     # Response Objects
-    TicketObject:
+    TicketResponseObject:
       type: object
       properties:
         id:
@@ -319,6 +349,8 @@ components:
           type: string
         description:
           type: string
+        lock:
+          $ref: "#/components/schemas/TicketLock"
         status:
           $ref: '#/components/schemas/TicketStatus'
         clientId:
@@ -353,7 +385,7 @@ components:
       type: object
       properties:
         ticket:
-          $ref: '#/components/schemas/TicketObject'
+          $ref: '#/components/schemas/TicketResponseObject'
 
     TicketResponseMulti:
       type: object
@@ -361,10 +393,9 @@ components:
         tickets:
           type: array
           items:
-            $ref: '#/components/schemas/TicketObject'
+            $ref: '#/components/schemas/TicketResponseObject'
         total:
           type: integer
-          description: Total number of tickets matching the filter
 
     TicketCreateResponse:
       allOf:
@@ -390,29 +421,3 @@ components:
       allOf:
         - $ref: '#/components/schemas/IResponse'
         - $ref: '#/components/schemas/TicketResponseSingle'
-
-    # Debug Types (optional)
-    TicketDebugMode:
-      type: string
-      enum:
-        - prod
-        - test
-        - stub
-
-    TicketDebugStubs:
-      type: string
-      enum:
-        - success
-        - not_found
-        - validation_error
-        - permission_denied
-        - too_many_tickets
-
-    TicketDebug:
-      type: object
-      properties:
-        mode:
-          $ref: '#/components/schemas/TicketDebugMode'
-        stub:
-          $ref: '#/components/schemas/TicketDebugStubs'
-          nullable: true
