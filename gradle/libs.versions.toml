@@ -6,6 +6,9 @@ coroutines = "1.9.0"
 logback = "1.5.3"
 kotest = "6.0.0.M2"
 kermit = "2.0.3"
+cassandra = "4.17.0"
+exposed = "0.50.0"
+liquibase = "4.27.0"
 
 kotlinx-datetime = "0.6.2"
 kotlinx-serialization = "1.8.1"
@@ -29,6 +32,7 @@ kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version = "0.23.
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 cor = { module = "org.kotlined.cc.libs:contact-center-lib-cor" }
+coroutines-jdk9 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk9", version.ref = "coroutines" }
 
 jackson-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 jackson-datatype = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
@@ -60,6 +64,22 @@ logback-logstash = { module = "net.logstash.logback:logstash-logback-encoder", v
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 logger-fluentd = { module = "org.fluentd:fluent-logger", version = "0.3.4" }
 
+# Databases
+db-cache4k = "io.github.reactivecircus.cache4k:cache4k:0.13.0"
+db-hikari = "com.zaxxer:HikariCP:5.1.0"
+db-exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
+db-exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exposed" }
+db-exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
+db-cassandra-core = { module = "com.datastax.oss:java-driver-core", version.ref = "cassandra" }
+db-cassandra-qbuilder = { module = "com.datastax.oss:java-driver-query-builder", version.ref = "cassandra" }
+db-cassandra-kapt = { module = "com.datastax.oss:java-driver-mapper-processor", version.ref = "cassandra" }
+db-cassandra-mapper = { module = "com.datastax.oss:java-driver-mapper-runtime", version.ref = "cassandra" }
+
+# Liquidbase
+liquibase-core = {module = "org.liquibase:liquibase-core", version.ref = "liquibase"}
+liquibase-picocli = "info.picocli:picocli:4.7.5"
+liquibase-snakeyml = "org.yaml:snakeyaml:1.33"
+
 # Testing
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
@@ -67,8 +87,12 @@ kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest"
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "5.2.1" }
 testcontainers-core = { module = "org.testcontainers:testcontainers", version = "1.21.1" }
 
+uuid = "com.benasher44:uuid:0.8.4"
+
 [bundles]
 kotest = ["kotest-junit5", "kotest-core", "kotest-property"]
+exposed = ["db-exposed-core", "db-exposed-dao", "db-exposed-jdbc"]
+cassandra = ["db-cassandra-core", "db-cassandra-mapper", "db-cassandra-qbuilder"]
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -79,3 +103,4 @@ kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", vers
 shadowJar = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 muschko-remote = { id = "com.bmuschko.docker-remote-api", version = "9.4.0" }
+palantir-docker = "com.palantir.docker:0.36.0"

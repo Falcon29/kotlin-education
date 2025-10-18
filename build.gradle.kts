@@ -18,24 +18,30 @@ subprojects {
     version = rootProject.version
 }
 
-//tasks {
-//    register("clean") {
-//        group = "build"
-//        gradle.includedBuilds.forEach {
-//            dependsOn(it.task(":clean"))
-//        }
-//    }
-//    val buildMigrations: Task by creating {
-//        dependsOn(gradle.includedBuild("contact-center-other").task(":buildImages"))
-//    }
-//
-//    val buildImages: Task by creating {
-//        dependsOn(buildMigrations)
-//        dependsOn(gradle.includedBuild("contact-center-be").task(":buildImages"))
-//    }
-//
-//    register("check") {
-//        group = "verification"
-//        dependsOn(gradle.includedBuild("contact-center-be").task(":check"))
-//    }
-//}
+tasks {
+    register("clean") {
+        group = "build"
+        gradle.includedBuilds.forEach {
+            dependsOn(it.task(":clean"))
+        }
+    }
+    val buildMigrations: Task by creating {
+        dependsOn(gradle.includedBuild("contact-center-other").task(":buildImages"))
+    }
+
+    val buildImages: Task by creating {
+        dependsOn(buildMigrations)
+        dependsOn(gradle.includedBuild("contact-center-be").task(":buildImages"))
+    }
+
+    val e2eTests: Task by creating {
+        dependsOn(buildImages)
+        dependsOn(gradle.includedBuild("contact-center-e2e-tests").task(":e2eTests"))
+        mustRunAfter(buildImages)
+    }
+
+    register("check") {
+        group = "verification"
+        dependsOn(gradle.includedBuild("contact-center-be").task(":check"))
+    }
+}
