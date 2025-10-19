@@ -73,3 +73,8 @@ open class RepoTicketException(
 ): RepoException(msg)
 
 open class RepoException(msg: String): Exception(msg)
+
+open class RepoEmptyLockException(id: CCTicketId): RepoTicketException(
+    id,
+    "Lock is empty in DB"
+)
