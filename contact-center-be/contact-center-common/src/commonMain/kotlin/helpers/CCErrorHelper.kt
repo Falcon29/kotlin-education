@@ -1,5 +1,6 @@
 package org.kotlined.common.helpers
 
+import org.kotlined.cc.logging.common.LogLevel
 import org.kotlined.common.CCContext
 import org.kotlined.common.models.CCError
 import org.kotlined.common.models.CCState
@@ -16,10 +17,16 @@ fun Throwable.asCCError(
     exception = this,
 )
 
-inline fun CCContext.addError(vararg error: CCError) = errors.addAll(error)
+inline fun CCContext.addError(error: CCError) = errors.add(error)
+inline fun CCContext.addErrors(error: Collection<CCError>) = errors.addAll(error)
 
 inline fun CCContext.fail(error: CCError) {
     addError(error)
+    state = CCState.FAILING
+}
+
+inline fun CCContext.fail(errors: Collection<CCError>) {
+    addErrors(errors)
     state = CCState.FAILING
 }
 
@@ -36,4 +43,16 @@ inline fun errorValidation(
     field = field,
     group = "validation",
     message = "Validation error for field $field: $description",
+)
+
+inline fun errorSystem(
+    violationCode: String,
+    level: LogLevel = LogLevel.ERROR,
+    e: Throwable,
+) = CCError(
+    code = "system-$violationCode",
+    group = "system",
+    message = "System error occurred. Our stuff has been informed, please retry later",
+    level = level,
+    exception = e,
 )
