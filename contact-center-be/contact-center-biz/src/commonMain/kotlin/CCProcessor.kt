@@ -23,7 +23,7 @@ class CCProcessor(
     suspend fun exec(ctx: CCContext) = businessChain.exec(ctx.also { it.corSettings = corSettings })
 
     private val businessChain = rootChain<CCContext> {
-        initStatus("Начальный статус обработки непонятно чего")
+        initStatus("Начальный статус обработки запроса")
         initRepo("Инициализация репозитория")
 
         operation("Создание тикета", CCCommand.CREATE) {
@@ -45,7 +45,7 @@ class CCProcessor(
             chain {
                 title = "Логика создания тикета"
                 repoPrepareCreate("Подготовка к сохранению тикета в БД")
-                repoCreate("Сохранение тикат в БД")
+                repoCreate("Сохранение тикета в БД")
             }
             prepareResult("Подготовка ответа")
         }
