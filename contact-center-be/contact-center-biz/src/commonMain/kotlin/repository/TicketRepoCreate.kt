@@ -17,7 +17,10 @@ fun ICorChainDsl<CCContext>.repoCreate(title: String) = worker {
     handle {
         val request = DBTicketRequest(ticketRepoPrepare)
         when (val result = ticketRepo.createTicket(request)) {
-            is DBTicketResponseOk -> ticketRepoDone = result.data
+            is DBTicketResponseOk -> {
+                ticketRepoDone = result.data
+                println("Тикет добавлен: $request, $ticketRepoPrepare, ${result.data}")
+            }
             is DBTicketResponseError -> fail(result.errors)
             is DBTicketResponseErrWithData -> fail(result.errors)
         }

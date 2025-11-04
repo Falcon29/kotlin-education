@@ -18,6 +18,7 @@ class SerializationTest {
     @Test
     fun `request is serialized correctly`() {
         val jsonString = apiV1Mapper.writeValueAsString(request)
+        print(jsonString)
         assertContains(jsonString, """"title":"Where is my mind?"""")
         assertContains(jsonString, """"description":"Wheeeresmymind"""")
         assertContains(jsonString, """"priority":"medium"""")

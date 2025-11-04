@@ -27,7 +27,7 @@ suspend inline fun <T> ICCAppSettings.controllerHelper(
         )
         processor.exec(ctx)
         logger.info(
-            msg = "Request $logId processed for ${clazz.simpleName}",
+            msg = "Request $logId processed for ${clazz.simpleName}:: ${ctx.toLog(logId)}",
             marker = "BIZ",
             data = ctx.toLog(logId)
         )
