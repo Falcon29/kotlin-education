@@ -12,8 +12,13 @@ fun ICorChainDsl<CCContext>.validateId(title: String) = worker {
 
     val regExp = Regex("^[0-9a-zA-Z#:-]+$")
     on {
-        ticketValidating.id != CCTicketId.NONE && !ticketValidating.id.asString().matches(regExp)
-                || ticketValidating.id.asString().isEmpty()
+//        ticketValidating.id != CCTicketId.NONE && !ticketValidating.id.asString().matches(regExp)
+//                ||
+        println("DEBUG: ID validation check")
+        println("DEBUG: ticketValidating.id = '${ticketValidating.id}'")
+        println("DEBUG: ticketValidating.id.asString() = '${ticketValidating.id.asString()}'")
+        println("DEBUG: isEmpty = '${ticketValidating.id.asString().isEmpty()}'")
+                ticketValidating.id.asString().isEmpty()
     }
     handle {
         val encodedId = ticketValidating.id.asString()

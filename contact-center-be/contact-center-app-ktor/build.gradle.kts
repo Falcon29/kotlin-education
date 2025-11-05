@@ -63,6 +63,11 @@ kotlin {
                 implementation(project(":contact-center-biz"))
                 implementation(project(":contact-center-api-v2-multiplatform"))
 
+                implementation(libs.uuid)
+                implementation(projects.contactCenterRepoCommon)
+                implementation(projects.contactCenterRepoStubs)
+                implementation(projects.contactCenterRepoInmemory)
+
                 // Stubs
                 implementation(project(":contact-center-stubs"))
 
@@ -102,7 +107,7 @@ kotlin {
 //                implementation(project(":contact-center-biz"))
 
                 implementation("org.kotlined.cc.libs:contact-center-lib-logback")
-
+                implementation(projects.contactCenterRepoCassandra)
             }
         }
 

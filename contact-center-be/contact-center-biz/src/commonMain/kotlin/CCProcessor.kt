@@ -58,7 +58,7 @@ class CCProcessor(
             }
             validation {
                 worker("Копируем поля в ticketValidating") { ticketValidating = ticketRequest.copy() }
-                worker("Очистка id") { ticketValidating.id = CCTicketId.NONE }
+                worker("Очистка id") { ticketValidating.id = CCTicketId(ticketValidating.id.asString().trim()) }
                 validateId("Проверка ID")
                 finishValidation("Завершение проверок")
             }
@@ -80,7 +80,7 @@ class CCProcessor(
             }
             validation {
                 worker("Копируем поля в ticketValidating") { ticketValidating = ticketRequest.copy() }
-                worker("Очистка id") { ticketValidating.id = CCTicketId.NONE }
+                worker("Очистка id") { ticketValidating.id = CCTicketId(ticketValidating.id.asString().trim()) }
                 validateId("Проверка ID")
                 finishValidation("Завершение проверок")
             }

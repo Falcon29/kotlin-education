@@ -7,3 +7,15 @@ ktor:
   application:
     modules:
       - "org.kotlined.cc.app.ktor.ApplicationJvmKt.moduleJvm"
+
+contactcenter:
+  repository:
+    test: "inmemory"
+    prod: "$DB_TYPE_PROD:inmemory"
+
+    cassandra:
+      keyspace: "$CC_KEYSPACE:marketplace-ads"
+      host: "$CC_HOST:localhost"
+      port: "$CC_PORT:9042"
+      user: "$CC_USER:cassandra"
+      pass: "$CC_PASS:cassandra"

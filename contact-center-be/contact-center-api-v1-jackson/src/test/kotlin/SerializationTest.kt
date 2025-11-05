@@ -14,6 +14,14 @@ class SerializationTest {
             priority = TicketPriority.MEDIUM
         )
     )
+    /*
+    private val request = TicketGetRequest(
+        requestType = "get",
+        ticket = TicketGetObject(
+            id = "12345"
+        )
+    )
+     */
 
     @Test
     fun `request is serialized correctly`() {
